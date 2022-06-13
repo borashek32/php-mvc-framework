@@ -1,0 +1,1 @@
+<h1 class="text-center mt-5">Hello, <?php echo $params['name'] ?>!</h1>

@@ -1,0 +1,15 @@
+{
+    "name": "macbookpro/mvc-framework",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "borashek",
+            "email": "borashek@inbox.ru"
+        }
+    ],
+    "require": {}
+}
