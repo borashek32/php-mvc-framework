@@ -46,7 +46,7 @@ abstract class Model
         if ($ruleName === self::RULE_MAX && strlen($value) > $rule['max']) {
           $this->addError($attribute, self::RULE_MAX, $rule);
         }
-        if ($ruleName === self::RULE_MATCH && !$value->{$rule['match']}) {
+        if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
           $this->addError($attribute, self::RULE_MATCH, $rule);
         }
       }
@@ -75,13 +75,18 @@ abstract class Model
     ];
   }
 
-  // public function hasError($attribute)
-  // {
-  //   return $this->errors[$attribute] ?? false;
-  // }
+  public function getFirstError($attribute)
+  {
+    return $this->errors[$attribute][0] ?? false;
+  }
+
+  public function hasError($attribute)
+  {
+    return $this->errors[$attribute] ?? false;
+  }
 
   public function register()
   {
-
+    echo 'creating a new user';
   }
 }
