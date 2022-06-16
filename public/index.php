@@ -1,10 +1,13 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
-
 use app\core\Application;
 use app\controllers\SiteController;
 use app\controllers\AuthController;
+
+require_once __DIR__ . "/../vendor/autoload.php";
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
 // to know the root directory of the project
 // echo '<pre>';
@@ -12,7 +15,15 @@ use app\controllers\AuthController;
 // echo '<pre>';
 // exit;
 
-$app = new Application(dirname(__DIR__));
+$config = [
+  'db' => [
+    'dsn'          => $_ENV['DB_DSN'],
+    'user'         => $_ENV['DB_USER'],
+    'password'     => $_ENV['DB_PASSWORD']
+  ]
+];
+
+$app = new Application(dirname(__DIR__), $config);
 
 $app->router->get('/', [SiteController::class, 'home']);
 
