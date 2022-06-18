@@ -1,4 +1,4 @@
-<h1 class="text-center mt-5">Contact</h1>
+<h1 class="text-center mt-5">Contact us</h1>
 
 <div class="col-md-4 offset-md-4 mt-5">
   <form action="" method="POST">

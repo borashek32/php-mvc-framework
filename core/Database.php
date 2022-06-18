@@ -101,4 +101,9 @@ exit;
   {
     echo '[' . date('Y-m-d H-m-s') . ']' . $message . PHP_EOL;
   }
+
+  public function prepare($sql)
+  {
+    return $this->pdo->prepare($sql);
+  }
 }

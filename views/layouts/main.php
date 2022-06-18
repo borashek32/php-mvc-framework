@@ -1,5 +1,5 @@
 <?php
-
+use app\core\Application;
 ?>
 
 <!doctype html>
@@ -22,21 +22,47 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contact">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register">Register</a>
-            </li>
+            
+            <?php if (\app\core\Application::isGuest()): ?>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+              </li>
+
+            <?php else: ?>
+              <li class="nav-item">
+                <a class="nav-link" href="/contact">Contact us</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">
+                  Logout
+                </a>
+              </li>  
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/profile">
+                  Profile
+                </a>
+              </li>  
+            <?php endif; ?>  
           </ul>
         </div>
       </div>
     </nav>
 
     <div class="container">
+      <?php if (Application::$app->session->getFlash('success')): ?>
+        <div class="alert alert-success mt-3">
+          <p>
+            <?php echo Application::$app->session->getFlash('success') ?>
+          </p>
+        </div>
+      <?php endif; ?>  
+
       {{content}}
     </div>
     
