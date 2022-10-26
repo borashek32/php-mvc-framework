@@ -2,6 +2,7 @@
 /**
  * @var $model \app\models\User
  */
+$this->title = 'Registration';
 ?>
 
 <div class="col-md-4 offset-md-4">

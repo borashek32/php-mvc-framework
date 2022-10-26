@@ -38,12 +38,10 @@ class Router
     $callback   = $this->routes[$method][$path] ?? false;
 
     if ($callback === false) {
-      $this->response->setStatusCode(404);
       throw new NotFoundException();
-      // return $this->renderView('_404');
     }
     if (is_string($callback)) {
-      return $this->renderView($callback);
+      return Application::$app->view->renderView($callback);
     }
     if (is_array($callback)) {
       /**
@@ -63,39 +61,6 @@ class Router
 
   public function renderView($view, $params = [])
   {
-    $layoutContent = $this->layoutContent();
-    $viewContent   = $this->renderOnlyView($view, $params);
-    return str_replace('{{content}}', $viewContent, $layoutContent);
-  }
-
-  // public function renderContent($viewContent)
-  // {
-  //   $layoutContent = $this->layoutContent();
-  //   return str_replace('{{content}}', $viewContent, $layoutContent);
-  // }
-
-  protected function layoutContent()
-  {
-    $layout = Application::$app->layout;
-    if (Application::$app->controller) {
-      $layout = Application::$app->controller->layout;
-    }
-    ob_start();
-    include_once Application::$ROOT_DIR . "/views/layouts/$layout.php";
-    $out = ob_get_clean();
-
-    return $out;
-  }
-
-  protected function renderOnlyView($view, $params)
-  {
-    foreach ($params as $key => $value) {
-      $$key = $value;
-    }
-    ob_start();
-    include_once Application::$ROOT_DIR . "/views/$view.php";
-    $out = ob_get_clean();
-
-    return $out;
+    return Application::$app->view->renderView($view, $params);
   }
 }

@@ -1,5 +1,7 @@
 <?php
 use app\core\Application;
+
+$this->title = 'Home';
 ?>
 
 <?php if (\app\core\Application::isGuest()): ?>

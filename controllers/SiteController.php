@@ -3,29 +3,34 @@
 namespace app\controllers;
 
 use app\core\Controller;
+use app\core\Application;
+use app\core\Response;
 use app\core\Request;
+use app\models\ContactForm;
 
 class SiteController extends Controller
 {
   public function home()
   {
-    $params = [
-      'name' => 'Nataly'
-    ];
-    return $this->render('home', $params);
+    return $this->render('home');
   }
 
-  public function contact()
+  public function contact(Request $request, Response $response)
   {
-    return $this->render('contact');
+    $contactForm = new ContactForm();
+    if ($request->isPost()) {
+      $contactForm->loadData($request->getBody());
+      if ($contactForm->validate() && $contactForm->send()) {
+        Application::$app->session->setFlash('success', 'Thanks for contacting us! Your message sent successufully');
+        return $response->redirect('/contact');
+      }
+    }
+    return $this->render('contact', [
+      'model' => $contactForm
+    ]);
   }
-
-  public function handleContact(Request $request)
-  {
-    $body = $request->getBody();
-    // echo '<pre>';
-    // var_dump($body);
-    // echo '</pre>';
-    // exit;
-  }
+// echo '<pre>';
+// var_dump($body);
+// echo '</pre>';
+// exit;
 }

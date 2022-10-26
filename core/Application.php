@@ -7,8 +7,9 @@ use app\core\Request;
 use app\core\Session;
 use app\core\Response;
 use app\core\Controller;
-use app\core\Database;
-use app\core\DbModel;
+use app\core\db\Database;
+use app\core\db\DbModel;
+use app\core\View;
 
 class Application
 {
@@ -23,6 +24,7 @@ class Application
   public Session $session;
   public static Application $app;
   public ?DbModel $user;
+  public View $view;
 
   public function __construct($rootPath, array $config)
   {
@@ -36,6 +38,7 @@ class Application
     $this->router   = new Router($this->request, $this->response);
     $this->db       = new Database($config['db']);
     $this->session  = new Session;
+    $this->view     = new View;
 
     $primaryValue = $this->session->get('user');
     if ($primaryValue) {
@@ -51,7 +54,8 @@ class Application
     try {
       echo $this->router->resolve();
     } catch (\Exception $e) {
-      echo $this->router->renderView('_error' , [
+      $this->response->setStatusCode($e->getCode());
+      echo $this->view->renderView('_error' , [
         'exception' => $e
       ]);
     }
